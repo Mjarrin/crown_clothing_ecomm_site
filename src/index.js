@@ -11,8 +11,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 // By wrapping browserRouter around our app, it gives our app all the functionality of routing that the library provides
 
-// we pass the component resposible for providing the context to our application
-// Persist Gate the persistor which is the persisted version of our store
 
 ReactDOM.render(
 
