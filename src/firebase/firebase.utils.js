@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import { logDOM } from "@testing-library/dom";
 
 
 var config = {
@@ -42,8 +43,47 @@ var config = {
 
   }
 
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+
+    const batch = firestore.batch();
+
+    objectsToAdd.forEach(obj => {
+      const newDocRef = collectionRef.doc();
+      batch.set(newDocRef,obj)
+
+    })
+
+    return await batch.commit()
+  } 
+
 
   firebase.initializeApp(config);
+
+ export const convertCollectionsSnapshotToMap = (collections) => {
+
+    const transformedCollection = collections.docs.map(doc => {
+      const { title, items } = doc.data();
+
+      return {
+        // encodeURI gives you back a string where any character that a URL cannot
+        // handle or process symbols or spaces it converts them in a version that the url
+        // can actually read, and this case we will pass our route name
+        routeName : encodeURI(title.toLowerCase()),
+        id : doc.id,
+        title,
+        items
+      }
+
+    })
+
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+
+      return accumulator;
+
+    },{})
+  } 
 
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();

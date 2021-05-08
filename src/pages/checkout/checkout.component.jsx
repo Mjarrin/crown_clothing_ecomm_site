@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 import { selectCartTotal, selectCartItems } from "../../redux/cart/cart.selectors";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 
-import StripeCheckoutButton from "../../components/stipe-button/stripe-button.component";
+import StripeCheckoutButton from "../../components/stripe-button/stripe-button.component";
 
 
 

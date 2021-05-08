@@ -15,8 +15,10 @@ import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.com
 import Header from "./components/header/header.component";
 
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument, addCollectionAndDocuments } from "./firebase/firebase.utils";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+
+import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 
 class App extends Component {
@@ -24,7 +26,7 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser, collectionsArray } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
 
@@ -48,11 +50,13 @@ class App extends Component {
 
     
    
-      } else {
+      } 
 
         setCurrentUser(userAuth)
 
-      }
+        // adding out categories programatically to firebase via fire store batch
+        // addCollectionAndDocuments("collections",collectionsArray.map(({title,items})=> ({title,items})))
+
     })
   }
 
@@ -87,7 +91,9 @@ class App extends Component {
 }
 
 const mapStateProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
+
 
 
 })
