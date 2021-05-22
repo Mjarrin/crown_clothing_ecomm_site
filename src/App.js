@@ -5,7 +5,7 @@ import './App.css';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { setCurrentUser } from "./redux/user/user.actions";
+import { checkUserSession } from "./redux/user/user.actions";
 
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
@@ -13,9 +13,6 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 
 import Header from "./components/header/header.component";
-
-
-import { auth, createUserProfileDocument, addCollectionAndDocuments } from "./firebase/firebase.utils";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
 import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
@@ -26,38 +23,40 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser, collectionsArray } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    const { checkUserSession } = this.props;
+    checkUserSession()
 
-      console.log("userAuth " , userAuth);
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
 
-      if (userAuth) {
+    //   console.log("userAuth " , userAuth);
 
-        const userRef = await createUserProfileDocument(userAuth);
-        // snapshot representing the data stored in our datatbase
-        // similar to the onAuth change
-        // the data method gets the user properties
-        // we mixed the auth library + Firestore objects
-        userRef.onSnapshot(snapShot => {
-         setCurrentUser({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
-          });
-        });
+    //   if (userAuth) {
+
+    //     const userRef = await createUserProfileDocument(userAuth);
+    //     // snapshot representing the data stored in our datatbase
+    //     // similar to the onAuth change
+    //     // the data method gets the user properties
+    //     // we mixed the auth library + Firestore objects
+    //     userRef.onSnapshot(snapShot => {
+    //      setCurrentUser({
+    //         currentUser: {
+    //           id: snapShot.id,
+    //           ...snapShot.data()
+    //         }
+    //       });
+    //     });
 
     
    
-      } 
+    //   } 
 
-        setCurrentUser(userAuth)
+    //     setCurrentUser(userAuth)
 
-        // adding out categories programatically to firebase via fire store batch
-        // addCollectionAndDocuments("collections",collectionsArray.map(({title,items})=> ({title,items})))
+    //     // adding out categories programatically to firebase via fire store batch
+    //     // addCollectionAndDocuments("collections",collectionsArray.map(({title,items})=> ({title,items})))
 
-    })
+    // })
   }
 
   componentWillUnmount() {
@@ -100,8 +99,9 @@ const mapStateProps = createStructuredSelector({
 
 
 const mapDispatchToProps = dispatch => ({
-setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession : () => dispatch(checkUserSession())
 
 })
+
 
 export default connect(mapStateProps,mapDispatchToProps)(App);
