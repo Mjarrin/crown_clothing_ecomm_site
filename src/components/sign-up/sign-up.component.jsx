@@ -5,6 +5,13 @@ import "./sign-up.styles.scss";
 import { render } from "@testing-library/react";
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
+import { connect } from "react-redux";
+
+import { signUpStart } from "../../redux/user/user.actions"
+
+
+//signUpStart
+
 class SignUp extends Component {
     constructor() {
         super();
@@ -28,24 +35,18 @@ class SignUp extends Component {
             return;
         }
 
-        try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
+            const { signUpStart } = this.props;
 
-          
+            signUpStart({ displayName, email, password });
+            
 
-            await createUserProfileDocument(user, {displayName});
+
+            // const { user } = await auth.createUserWithEmailAndPassword(email, password);
+            // await createUserProfileDocument(user, {displayName});
 
             // clearing out form after saving the user info to firebase
-            this.setState({
-                displayName: "",
-                email: "",
-                password: "",
-                confirmPassword: ""
-    
-            })
-        } catch(error) {
-            console.error(error)
-        }
+
+     
 
     }
 
@@ -62,6 +63,7 @@ class SignUp extends Component {
 
     render() {
         const { displayName, email, password, confirmPassword } = this.state;
+    
         return (
             <div className="sign-up">
                 <h2 className="title">I do not have an account</h2>
@@ -112,4 +114,10 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+
+
+const mapDispatchToProps = dispatch => ({
+    signUpStart : (userRegistrationDetails) => dispatch(signUpStart(userRegistrationDetails))
+})
+
+export default connect(null,mapDispatchToProps)(SignUp);

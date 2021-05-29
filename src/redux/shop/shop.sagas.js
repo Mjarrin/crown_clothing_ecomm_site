@@ -1,5 +1,5 @@
 // listens to a specific action that we pass
-import { takeEvery, call, put, take, delay } from "redux-saga/effects";
+import { takeEvery, call, put, take, delay, all, takeLatest } from "redux-saga/effects";
 import { firestore, convertCollectionsSnapshotToMap } from "../../firebase/firebase.utils";
 
 import ShopActionTypes from "./shop.types";
@@ -56,6 +56,7 @@ export function* fetchCollectionsStart() {
 // back to the library
 
 
+
 export function* incrementSaga() {
     while(true) {
         yield take("INCREMENT")
@@ -66,3 +67,8 @@ export function* incrementSaga() {
 
 // takeLatest cancels the previous sagas and returns the latest one (the one that resolves)
 // delay is the same as set timeout 
+
+export function* shopSagas() {
+    yield all([call(fetchCollectionsStart)]);
+    
+}
