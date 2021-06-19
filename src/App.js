@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -18,14 +18,16 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 
-class App extends Component {
+const App = ({ checkUserSession , currentUser}) => {
 
-  unsubscribeFromAuth = null;
+//  unsubscribeFromAuth = null;
 
-  componentDidMount() {
-
-    const { checkUserSession } = this.props;
+  useEffect(() => {
     checkUserSession()
+// we would do something different if there was another parent component 
+// this now behaves like a componentdidmount
+  },[checkUserSession]) 
+
 
     // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
 
@@ -57,18 +59,13 @@ class App extends Component {
     //     // addCollectionAndDocuments("collections",collectionsArray.map(({title,items})=> ({title,items})))
 
     // })
-  }
+  
+  // componentWillUnmount() {
+  //   // used for closing the subscription
+  //   this.unsubscribeFromAuth()
 
-  componentWillUnmount() {
-    // used for closing the subscription
-    this.unsubscribeFromAuth()
-
-  }
-
-  render() {
-
-    return (
-
+  // }
+return (
       <div>
         <Header/>
         <Switch>
@@ -85,8 +82,9 @@ class App extends Component {
 
         </Switch>
       </div>
-    )
-  };
+
+  )
+    
 }
 
 const mapStateProps = createStructuredSelector({
