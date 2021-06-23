@@ -2,6 +2,7 @@ import React from "react";
 import StripeCheckout from "react-stripe-checkout";
 
 import "./stripe-button.styles.scss";
+import axios from "axios";
 
 // we pass the component resposible for providing the context to our application
 // Persist Gate the persistor which is the persisted version of our store
@@ -17,7 +18,22 @@ const StripeCheckoutButton = ({ price }) => {
     const onToken = token => {
         console.log(token);
 
-        alert("Payment Succesful")
+
+        axios.post("/payment", {
+                
+                amount: priceForStripe,
+                token
+            
+
+        }).then(response => {
+
+            alert("Payment Succesful")
+        
+        }).catch(error => {console.log("payment issue " + JSON.parse(error))
+        
+            alert("Payment error please make sure you provided the correct credentials", )
+         })  
+
     }
     return (
 

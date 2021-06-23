@@ -24,6 +24,8 @@ export function* fetchCollectionsAsync() {
         // yield allows us to defer back to the saga middle ware in case we want to cancel 
         const collectionsMap = yield call(convertCollectionsSnapshotToMap, snapshot)
         // put is the saga effect for creating actions exactly as dispatch
+
+        console.log("collection map " , collectionsMap)
         yield put(fetchCollectionsSuccess(collectionsMap))
     } catch(error) {
 

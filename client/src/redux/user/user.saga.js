@@ -95,7 +95,7 @@ export function* onSignOut() {
 }
 
 export function* onSignOutStart() {
-    yield takeLatest(UserActionTypes.SING_OUT_START,onSignOut)
+    yield takeLatest(UserActionTypes.SIGN_OUT_START,onSignOut)
 
 }
 

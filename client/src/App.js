@@ -73,7 +73,7 @@ return (
           <Route  path="/shop" component={ShopPage} />
           <Route  path="/checkout" component={CheckoutPage} />
 
-          <Route exact path="/signin" render={() => this.props.currentUser ? (
+          <Route exact path="/signin" render={() => currentUser ? (
             <Redirect to="/" />
             ) : (
               <SignInAndSignUp/>
