@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === "production") {
     app.get("*", function(req,res){
         // for all get requests we are going to serve the index.html file
         // which hold everything 
-        res.sendFile(path.join(__dirname, "client/build", "index.html"))
+        res.sendFile(path.join(__dirname, "client/build/public", "index.html"))
     })
 }
 
