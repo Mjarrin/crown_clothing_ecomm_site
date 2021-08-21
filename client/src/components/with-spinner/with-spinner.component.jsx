@@ -1,22 +1,15 @@
 import React from "react";
 
-import { SpinnerContainer, SpinnerOverlay } from "./with-spinner.styles";
+import Spinner from '../spinner/spinner.component';
 
 // a higher order component returns another functional component
 
-const WithSpinner = WrappedComponent => {
-    const Spinner = ({isLoading , ...otherProps}) => {
+const WithSpinner = WrappedComponent => ({isLoading , ...otherProps}) => {
         
-        return isLoading ? (
-            <SpinnerOverlay>
-                <SpinnerContainer />
-            </SpinnerOverlay>
-        ) : (   
+        return isLoading ? <Spinner/> :  <WrappedComponent {...otherProps}/>  
             // this way we pass through the props to the component we wrap
-            <WrappedComponent {...otherProps}/>
-        );
+         
+       
     };
     
-    return Spinner;
-}
 export default WithSpinner;

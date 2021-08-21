@@ -7,6 +7,8 @@ import { HomePageContainer } from "./homepage.styles";
 
 const Homepage = () => {
 
+    throw Error;
+
     return (
         <HomePageContainer>
             <Directory />

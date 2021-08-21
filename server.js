@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 // allows us to dynamically build when we call from our current directory to where we 
 // are trying to go
 const path = require("path");
+const compression = require("compression");
 
 
 // loads the .env environment when its not production, which allows our process env 
@@ -16,7 +17,9 @@ const port = process.env.PORT || 5000;
 
 // url enconded is a way for us to make sure the url string we are getting and passing out
 // dont contain symbols and if they do they get escaped
-app.use(express.urlencoded({ extended: true }))
+
+app.use(compression());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // blocks external api requqest that are not coming from our apps same origin ports
