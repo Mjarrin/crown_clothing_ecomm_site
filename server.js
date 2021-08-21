@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 // allows us to dynamically build when we call from our current directory to where we 
 // are trying to go
 const path = require("path");
+
+//compressing our js files via https so they are more optimized when run on by browsers
 const compression = require("compression");
 
 
