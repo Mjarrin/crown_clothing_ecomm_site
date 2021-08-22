@@ -7,6 +7,13 @@ const path = require("path");
 //compressing our js files via https so they are more optimized when run on by browsers
 const compression = require("compression");
 
+const enforce = require("express-sslify");
+
+
+// package for handling CORS options
+
+//var cors = require('cors')
+
 
 // loads the .env environment when its not production, which allows our process env 
 // to access our secret key
@@ -23,6 +30,14 @@ const port = process.env.PORT || 5000;
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// in case the host hides our header 
+// we do this because heroku runs a reverse proxy
+// it allows us to forward unencrypted http traffic to the website
+// heroku hides the header that originally would tell our application
+// if the request is coming from an http request
+// so we append this header that will tell us that to be sure
+app.use(enforce.HTTPS({ trustProtoHeader : true }));
 
 // blocks external api requqest that are not coming from our apps same origin ports
 // cors
@@ -67,3 +82,10 @@ app.listen(port, error => {
     if (error) throw error;
     console.log("Server running on port " + port);
 });
+
+app.get('/service-worker.js', (req,res) => {
+    // .. goes up since we are on our client , then we go to the build folder and then we sent the 
+    // service worker .js, this file comes with our creat react app 
+    res.sendFile(path.resolve(__dirname,'..', 'build' , 'service-worker.js'))
+
+})

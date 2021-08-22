@@ -8,6 +8,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
+import * as serviceWorker from "./serviceWorker";
+
 import { store, persistor } from "./redux/store";
 // By wrapping browserRouter around our app, it gives our app all the functionality of routing that the library provides
 
@@ -26,6 +28,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+serviceWorker.resgister();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
